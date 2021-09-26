@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from posts.models import Group, Post, Comment
+from posts.models import Group, Post, Comment, Follow
 
 
 class CurrentUserDefault(object):
@@ -45,3 +45,13 @@ class CommentSerializer(serializers.ModelSerializer):
         )
         read_only_fields = ('author', 'author_id', 'created')
         model = Comment
+
+
+class FollowSerializer(serializers.ModelSerializer):
+    user_id = serializers.HiddenField(default=CurrentUserDefault())
+    user = serializers.CharField(source='user.username', read_only=True)
+
+    class Meta:
+        fields = '__all__'
+        read_only_fields = ('user_id',)
+        model = Follow

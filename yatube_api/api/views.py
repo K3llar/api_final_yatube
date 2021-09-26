@@ -1,10 +1,12 @@
-from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets, permissions, filters
 from rest_framework.exceptions import PermissionDenied
 
-from api.serializers import (PostSerializer,
-                             GroupSerializer,
-                             CommentSerializer)
-from posts.models import Post, Group, Comment
+from .serializers import (PostSerializer,
+                          GroupSerializer,
+                          CommentSerializer,
+                          FollowSerializer)
+from posts.models import Post, Group, Comment, Follow
 
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
@@ -50,3 +52,19 @@ class CommentViewSet(viewsets.ModelViewSet):
         if instance.author != self.request.user:
             raise PermissionDenied('Отказано в доступе')
         super(CommentViewSet, self).perform_destroy(instance)
+
+
+class FollowViewSet(viewsets.ModelViewSet):
+    # queryset = Follow.objects.all()
+    serializer_class = FollowSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    # filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
+    # pagination_class = None
+    # filterset_fields = ('user', 'following')
+    # search_fields = ('^following',)
+
+    def get_queryset(self):
+        user = self.request.user
+        following = self.kwargs.get('following')
+        new_queryset = Follow.objects.filter(user=user)
+        return new_queryset

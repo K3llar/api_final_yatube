@@ -34,7 +34,7 @@ class CommentAdmin(SiteAdmin):
 
 @admin.register(Follow)
 class FollowAdmin(SiteAdmin):
-    list_display = ('user', 'author')
-    search_fields = ('author',)
-    list_filter = ('author',)
+    list_display = ('user', 'following')
+    search_fields = ('following',)
+    list_filter = ('following',)
     empty_value_display = empty_value
