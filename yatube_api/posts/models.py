@@ -75,10 +75,10 @@ class Follow(models.Model):
                                   on_delete=models.CASCADE,
                                   related_name='following')
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['user', 'following'],
-                                    name='uniq_follow'),
-            models.CheckConstraint(check=~Q(user=F('following')),
-                                   name='self_following'),
-        ]
+    # class Meta:
+    #     constraints = [
+    #         models.UniqueConstraint(fields=['user', 'following'],
+    #                                 name='uniq_follow'),
+    #         models.CheckConstraint(check=~Q(user=F('following')),
+    #                                name='self_following'),
+    #     ]

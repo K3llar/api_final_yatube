@@ -1,10 +1,10 @@
 from rest_framework import serializers
+from rest_framework.fields import CurrentUserDefault
 
-from posts.models import Group, Post, Comment, Follow
+from posts.models import Group, Post, Comment, Follow, User
 
 
-class CurrentUserDefault(object):
-
+class CurrentUserDefaultId(object):
     requires_context = True
 
     def __call__(self, serializer_instance=None):
@@ -14,7 +14,7 @@ class CurrentUserDefault(object):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author_id = serializers.HiddenField(default=CurrentUserDefault())
+    author_id = serializers.HiddenField(default=CurrentUserDefaultId())
     author = serializers.PrimaryKeyRelatedField(
         source='author.username', read_only=True)
 
@@ -31,7 +31,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    author_id = serializers.HiddenField(default=CurrentUserDefault())
+    author_id = serializers.HiddenField(default=CurrentUserDefaultId())
     author = serializers.CharField(source='author.username', read_only=True)
 
     class Meta:
@@ -48,10 +48,19 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class FollowSerializer(serializers.ModelSerializer):
-    user_id = serializers.HiddenField(default=CurrentUserDefault())
-    user = serializers.CharField(source='user.username', read_only=True)
+    user = serializers.CharField(default=CurrentUserDefault(), read_only=True)
+    following = serializers.SlugRelatedField(slug_field='username',
+                                             queryset=User.objects.all())
 
     class Meta:
-        fields = '__all__'
-        read_only_fields = ('user_id',)
+        fields = (
+            'user',
+            'following',
+        )
+        validators = [
+            serializers.UniqueTogetherValidator(
+                queryset=Follow.objects.all(),
+                fields=('user', 'user')
+            )
+        ]
         model = Follow
