@@ -53,4 +53,4 @@ python3 manage.py runserver
 
 Ниже приведены несколько операций с полученными ответами в формате JSON
 
-[GET]: http://127.0.0.1:8000/api/v1/posts/{post_id}/comments/
+[EXAMPLE] [GET]: http://127.0.0.1:8000/api/v1/posts/{post_id}/comments/
