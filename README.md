@@ -9,12 +9,12 @@
 Клонировать репозиторий и перейти в него в командной строке:
 
 ```
-git clone https://github.com/yandex-praktikum/kittygram.git
+git clone https://github.com/k3llar/api_final_yatube.git
 ```
 
 ```
-cd kittygram
-```
+cd api_final_yatube
+```Cancel changes
 
 Cоздать и активировать виртуальное окружение:
 
@@ -53,4 +53,4 @@ python3 manage.py runserver
 
 Ниже приведены несколько операций с полученными ответами в формате JSON
 
-[GET](http://127.0.0.1:8000/api/v1/posts/{post_id}/comments/)
+[GET]:http://127.0.0.1:8000/api/v1/posts/{post_id}/comments/
