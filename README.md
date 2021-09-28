@@ -53,4 +53,17 @@ python3 manage.py runserver
 
 Ниже приведены несколько операций с полученными ответами в формате JSON
 
+Получение списка комментариев к записи
 [EXAMPLE] [GET]: http://127.0.0.1:8000/api/v1/posts/{post_id}/comments/
+
+```
+[
+  {
+    "id": 0,
+    "author": "string",
+    "text": "string",
+    "created": "2019-08-24T14:15:22Z",
+    "post": 0
+  }
+]
+```
