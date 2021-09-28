@@ -92,4 +92,4 @@ EXAMPLE ANSWER
 ```
 
 #### Остальные пути и формы запросов расположены
-[EXAMPLE]: http://127.0.0.1:8000/redoc/
+[PATCH]: http://127.0.0.1:8000/api/v1/posts/{id}/
