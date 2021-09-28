@@ -57,6 +57,7 @@ python3 manage.py runserver
 [GET]: http://127.0.0.1:8000/api/v1/posts/{post_id}/comments/
 
 ```
+EXAMPLE ANSWER
 [
   {
     "id": 0,
@@ -66,4 +67,27 @@ python3 manage.py runserver
     "post": 0
   }
 ]
+```
+
+Частичное обновление публикации
+[PATCH]: http://127.0.0.1:8000/api/v1/posts/{id}/
+```
+EXAMPLE PAYLOAD
+{
+  "text": "string",
+  "image": "string",
+  "group": 0
+}
+```
+
+```
+EXAMPLE ANSWER
+{
+  "id": 0,
+  "author": "string",
+  "text": "string",
+  "pub_date": "2019-08-24T14:15:22Z",
+  "image": "string",
+  "group": 0
+}
 ```
