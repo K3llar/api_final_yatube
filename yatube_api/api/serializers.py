@@ -57,15 +57,16 @@ class FollowSerializer(serializers.ModelSerializer):
             'user',
             'following',
         )
-        validators = [
-            serializers.UniqueTogetherValidator(
-                queryset=Follow.objects.all(),
-                fields=('user', 'user'),
-                message=('following error')
-            ),
+        validators = (
             serializers.UniqueTogetherValidator(
                 queryset=Follow.objects.all(),
                 fields=('user', 'following'),
+                message=('You have following this person already'),
             ),
-        ]
+            serializers.UniqueTogetherValidator(
+                queryset=Follow.objects.all(),
+                fields=('user', 'user'),
+                message=('self-following error'),
+            ),
+        )
         model = Follow

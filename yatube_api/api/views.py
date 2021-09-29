@@ -1,10 +1,10 @@
 from rest_framework import viewsets, permissions, filters
-from rest_framework.exceptions import PermissionDenied
 
 from .serializers import (PostSerializer,
                           GroupSerializer,
                           CommentSerializer,
                           FollowSerializer)
+from .permissions import OwnerOrReadOnly
 from posts.models import Post, Group, Comment, Follow
 
 
@@ -16,23 +16,21 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    permission_classes = (OwnerOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
     def perform_update(self, serializer):
-        if serializer.instance.author != self.request.user:
-            raise PermissionDenied('Отказано в доступе')
         super(PostViewSet, self).perform_update(serializer)
 
     def perform_destroy(self, instance):
-        if instance.author != self.request.user:
-            raise PermissionDenied('Отказано в доступе')
         super(PostViewSet, self).perform_destroy(instance)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
+    permission_classes = (OwnerOrReadOnly,)
 
     def get_queryset(self):
         post_id = self.kwargs.get('post_id')
@@ -43,13 +41,9 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
     def perform_update(self, serializer):
-        if serializer.instance.author != self.request.user:
-            raise PermissionDenied('Отказано в доступе')
         super(CommentViewSet, self).perform_update(serializer)
 
     def perform_destroy(self, instance):
-        if instance.author != self.request.user:
-            raise PermissionDenied('Отказано в доступе')
         super(CommentViewSet, self).perform_destroy(instance)
 
 
